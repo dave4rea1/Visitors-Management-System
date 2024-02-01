@@ -396,7 +396,7 @@ if (isset($_POST["Submit"])) {
 <div id="qrcode" class="qrcode"></div>
 
 <form method="post" class="invite-form" id="qr-form" onsubmit="return validateForm()">
-    <h1>Let's Invite Someone</h1>
+    <h1>Create an Invite</h1>
     <label for="date">Invite Date</label>
     <input type="date" id="date" name="date" required>
 
