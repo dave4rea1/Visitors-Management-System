@@ -1,0 +1,202 @@
+/* Global styles */
+body {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #eee;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Header styles */
+.header {
+    height: 100vh;
+    background-image: 
+    linear-gradient(to right bottom, 
+    rgba(76, 216, 255, 0.8),
+    rgba(30, 108, 217, 0.8)),
+    url('background2.jpg');
+    background-size: cover;
+    background-position: top;
+    position: relative;
+}
+
+.brand-box {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+
+.brand {
+    font-size: 20px;
+}
+
+.text-box {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.heading-primary {
+    color: #fff;
+    text-transform: uppercase;
+    backface-visibility: hidden;
+    margin-bottom: 30px;
+}
+
+.heading-primary-main {
+    display: block;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 3px;
+}
+
+.heading-primary-sub {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: lowercase;
+}
+
+.btn:link,
+.btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+    border-radius: 100px;
+    transition: all .2s;
+    position: relative;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-white {
+    background-color: #fff;
+    color: #777;
+    font-size: 14px;
+}
+
+/* Login form styles */
+form {
+    height: auto; /* Allow the form to adjust its height based on content */
+    max-width: 300px; /* Limit the maximum width */
+    width: 100%;
+    background-color: rgba(53, 53, 53, 0.13);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 30px; /* Adjust the padding */
+    text-align: center; /* Center-align the content */
+}
+
+form * {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+    display: block; /* Ensure form elements stack vertically */
+    margin: 10px 0; /* Add vertical spacing between elements */
+}
+
+form h3 {
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 30px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+input,
+select {
+    display: block;
+    height: 40px; /* Reduce the height of input/select elements */
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 6px; /* Reduce the margin between input/select elements */
+    font-size: 14px;
+    font-weight: 300;
+    border: none; /* Remove the default select border */
+    outline: none; /* Remove the default select outline */
+}
+
+/* Add styles for the select arrow */
+select {
+    appearance: none;
+    background-image: url('your-arrow-icon.png'); /* Replace with your arrow icon */
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: 20px; /* Adjust the size as needed */
+    padding-right: 30px; /* Ensure space for the arrow icon */
+}
+
+select option {
+    background-color: #ffffff; /* Background color of options */
+    color: #080710; /* Text color of options */
+    padding: 10px; /* Padding around each option */
+    font-size: 14px;
+    font-weight: 300;
+}
+
+/* Style the selected option */
+select option:checked {
+    background-color: #080710; /* Background color of selected option */
+    color: #ffffff; /* Text color of selected option */
+}
+
+::placeholder {
+    color: #e5e5e5;
+}
+
+button {
+    margin-top: 30px; /* Reduce the margin-top for the button */
+    padding: 12px 0; /* Adjust the padding for the button */
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    font-size: 16px; /* Adjust the font size for the button */
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #080710;
+    color: #ffffff;
+}
+
+/* End of CSS */

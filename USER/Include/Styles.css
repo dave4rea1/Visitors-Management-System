@@ -1,0 +1,62 @@
+/* Gradient background */
+body {
+    background: linear-gradient(135deg, #fce8fc, #6b47ff, rgb(245, 16, 245));
+    background-size: 200% 200%;
+    animation: gradientAnimation 10s ease infinite;
+  }
+  
+  /* Animation for the gradient */
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+
+#centerpage {
+    margin: 0 auto;
+    width: 1000px;
+    height: 100%;
+    background-color: white;
+    border: 2px solid #c0c0c0;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-radius: 10px;
+}
+
+div.message {
+    border: 2px solid #c0c0c0;
+    padding-top: 1em;
+    padding-bottom: 40px;
+    color: white;
+    background-color: #dd0000;
+    font-weight: bold;
+    font-size: 1em;
+    margin: 0 auto;
+    width: 400px;
+    height: 40px;
+    text-align: center;
+    margin-bottom: 1em;
+}
+div.SuccessMessage {
+    border: 2px solid #c0c0c0;
+    padding-top: 1em;
+    padding-bottom: 40px;
+    color: white;
+    background-color: rgb(0, 221, 22);
+    font-weight: bold;
+    font-size: 1em;
+    margin: 0 auto;
+    width: 400px;
+    height: 40px;
+    text-align: center;
+    margin-bottom: 1em;
+}
+

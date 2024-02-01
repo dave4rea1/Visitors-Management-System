@@ -1,0 +1,101 @@
+<?php
+$current_page = "scan QR code";
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "visitors";
+
+$conn = new mysqli($host, $username, $password, $database);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$message = '';
+
+// Check if form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    $scannedData = $_POST['scanned_data'];
+
+    // Decrypt the scanned data
+    $decryptedData = base64_decode($scannedData);
+    $codeContents = explode("\n", $decryptedData);
+
+    // Assign values from the decoded QR code
+    $username = $codeContents[0];
+    $invite_date = $codeContents[1];
+    $visitor_name = $codeContents[2];
+    $visitor_email = $codeContents[3];
+    $visitor_phone = $codeContents[4];
+    $visitor_id = $codeContents[5];
+    $parking_reserved = $codeContents[6];
+
+    // Prepare an insert statement
+    $stmt = $conn->prepare("INSERT INTO scanned_qr (username, invite_date, visitor_name, visitor_email, visitor_phone, visitor_id, parking_reserved) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $username, $invite_date, $visitor_name, $visitor_email, $visitor_phone, $visitor_id, $parking_reserved);
+
+    // Execute and check
+    if ($stmt->execute()) {
+        $message = "Records inserted successfully.";
+    } else {
+        $message = "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+
+    echo "<script type='text/javascript'>alert('$message');</script>";
+}
+?>
+
+<!-- HTML and JavaScript for QR Code Scanning (Client-Side) -->
+<?php include 'include/header.php'; ?>
+<?php include 'include/navigation.php'; ?>
+<!-- ... [Your existing style tags] ... -->
+
+<div class="center-content">
+    <div class="container">
+        <div class="camera-wrapper">
+            <div id="camera-container">
+                <video id="preview"></video>
+            </div>
+        </div>
+        <form action="" method="post" name="myForm">
+            <input type="hidden" name="scanned_data" id="scanned_data">
+
+            <!-- ... [Other form fields if necessary] ... -->
+
+            <div class="form-group">
+                <input type="submit" name="submit" value="Submit" class="btn btn-primary form-control">
+            </div>
+        </form>
+        <button onclick="goBack()" class="btn btn-primary form-control">Go Back</button>
+    </div>
+</div>
+
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+<script>
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        } else {
+            console.error("No cameras found");
+        }
+    }).catch(function (e) {
+        console.error(e);
+    });
+
+    scanner.addListener('scan', function (content) {
+        document.getElementById('scanned_data').value = content;
+        document.forms['myForm'].submit();
+    });
+</script>
+
+<script>
+    function goBack() {
+        window.location.href = "register.php";
+    }
+</script>
+
+<?php include 'include/footer.php'; ?>

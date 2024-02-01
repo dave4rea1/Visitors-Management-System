@@ -1,0 +1,74 @@
+<?php require_once("Include/Session.php"); ?>
+<?php require_once("Include/Functions.php"); ?>
+<?php require_once("Include/DB.php"); ?>
+<?php Confirm_Login(); ?>
+
+<?php 
+include('qr-codegen/libs/phpqrcode/qrlib.php');
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'Include/PHPMailer/src/Exception.php';
+require 'Include/PHPMailer/src/PHPMailer.php';
+require 'Include/PHPMailer/src/SMTP.php';
+
+if (isset($_POST["Submit"])) {
+    global $Connection;
+    
+    $Username = $_SESSION["Username"];
+    $InviteDate = mysqli_real_escape_string($Connection, $_POST["date"]);
+    $VisitorName = mysqli_real_escape_string($Connection, $_POST["name"]);
+    $VisitorEmail = mysqli_real_escape_string($Connection, $_POST["email"]);
+    $VisitorPhone = mysqli_real_escape_string($Connection, $_POST["phone"]);
+    $VisitorID = mysqli_real_escape_string($Connection, $_POST["id-number"]);
+    $Parking = isset($_POST["parking-toggle"]) ? "Yes" : "No";
+
+    // Generate unique identifier and timestamp
+    $uniqueID = uniqid();
+    $timestamp = time();
+
+    // Generating QR code content with unique identifier and timestamp
+    $codeContents = $Username . "\n" . $InviteDate . "\n" . $VisitorName . "\n" . $VisitorEmail . "\n"
+     . $VisitorPhone . "\n" . $VisitorID . "\n" . $Parking . "\n" . $uniqueID . "\n" . $timestamp;
+    
+    // Optional: Encrypt the QR code content
+    $encryptedCodeContents = base64_encode($codeContents);
+    
+    ob_start();
+    QRcode::png($encryptedCodeContents, null, QR_ECLEVEL_L, 5);
+    $qrImageData = ob_get_contents();
+    ob_end_clean();
+
+    // Insert invite data into the database
+    $sql = "INSERT INTO invites (username, invite_date, visitor_name, visitor_email, visitor_phone, visitor_id, parking_reserved, qrcode, unique_id, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $Connection->prepare($sql);
+    $stmt->bind_param("sssssssbss", $Username, $InviteDate, $VisitorName, $VisitorEmail, $VisitorPhone, $VisitorID, $Parking, $qrImageData, $uniqueID, $timestamp);
+    $stmt->send_long_data(7, $qrImageData);
+
+    if ($stmt->execute()) {
+        $_SESSION["SuccessMessage"] = "Invite sent successfully";
+
+        // Send email with QR code as an attachment
+        $mail = new PHPMailer(true);
+        // ... [Rest of your mail configuration and content]
+        $mail->addStringAttachment($qrImageData, 'qr-code.png', 'base64', 'image/png', 'inline', 'qrcode');
+        // ... [Rest of your mail sending logic]
+    } else {
+        $_SESSION["ErrorMessage"] = "Something went wrong. Try again!";
+    }
+
+    header("Location: Invite.php");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your existing HTML head content -->
+</head>
+<body>
+    <!-- Your existing HTML body content -->
+</body>
+</html>
